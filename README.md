@@ -9,7 +9,7 @@ A planned fine-tune of a small instruction model for one task, **bounded brainst
 
 It returns **N new items** that match the format and the domain of the priors but **do not repeat or near-duplicate** any of them.
 
-Status (2026-10-27): spec and data plumbing. Dataset: [`danielrosehill/Bounded-Brainstorming`](https://huggingface.co/datasets/danielrosehill/Bounded-Brainstorming) (private until ready; holds one test row). No training or weights yet.
+Status (2026-10-27): **proof of concept**, in planning (taxonomy, prior art, architecture). Plan and phases: [`docs/planning/roadmap.md`](docs/planning/roadmap.md). Dataset: [`danielrosehill/Bounded-Brainstorming`](https://huggingface.co/datasets/danielrosehill/Bounded-Brainstorming) (private until ready; holds one test row). No training or weights yet.
 
 ## Why
 
@@ -32,6 +32,8 @@ These are learnable, measurable behaviours, which makes the task a good fit for 
 | Career trajectories | CV | role, why it fits, bridge steps |
 | Open-ended ideation | none or a few examples | free list |
 
+The full catalogue (30 cases, tagged by archetype, input modality, size and knowledge needs) is in [`docs/planning/use-cases.md`](docs/planning/use-cases.md); the axes are defined in [`docs/planning/taxonomy.md`](docs/planning/taxonomy.md).
+
 The last row is the degenerate case with no priors. The model should still work there, but the main target is the case where priors are present.
 
 ## Prior art (checked 2026-10-27)
@@ -43,7 +45,7 @@ No public model or dataset was found that trains this exact task (priors, format
 - [Divergent-Convergent Thinking for Creative Problem Generation](https://arxiv.org/html/2512.23601v1) is a brainstorm-then-select prompting pipeline.
 - [LLMs as Innovators: latent-space exploration](https://arxiv.org/html/2507.13874v1) notes that raising temperature gives only modest originality gains, which argues for training rather than sampling tricks.
 
-Re-check the Hugging Face Hub before training (`brainstorm`, `ideation`, `divergent`, `list expansion`).
+A fuller survey (2026-10-27) found no Hub model, dataset or Space for this exact task. See [`docs/research/prior-art-huggingface.md`](docs/research/prior-art-huggingface.md) and [`docs/research/prior-art-papers.md`](docs/research/prior-art-papers.md); conclusions are in [`docs/planning/decisions.md`](docs/planning/decisions.md).
 
 ## I/O contract
 
@@ -82,7 +84,10 @@ The tension to watch is novelty against fit. A model that rewards distance alone
 
 ## Layout
 
+- `docs/README.md`: index of all planning and research docs
 - `docs/schema.md`: input/output contract
+- `docs/planning/`: roadmap, decisions, task taxonomy, use-case catalogue, context requirements
+- `docs/research/`: prior art (HF Hub, papers) and architecture options
 - `data/seed/`: public example tuples (record = schema input + `output` + `source`)
 - `data/private/` (gitignored): working splits `train/validation/test.jsonl`, pushed to the private HF dataset
 - `scripts/validate.py`: `uv run scripts/validate.py <files.jsonl>` checks fields, item count, keys and exact repeats of priors

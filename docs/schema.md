@@ -1,5 +1,7 @@
 # I/O schema
 
+Version 0.1 (implemented in `scripts/validate.py`). Proposed v0.2 additions (`exclude`, typed `context`, `priors_omitted`, `meta`) are in [`planning/context-requirements.md`](planning/context-requirements.md#proposed-schema-v02).
+
 ## Input
 
 | Field | Type | Required | Meaning |
