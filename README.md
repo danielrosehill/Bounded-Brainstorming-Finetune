@@ -9,7 +9,7 @@ A planned fine-tune of a small instruction model for one task, **bounded brainst
 
 It returns **N new items** that match the format and the domain of the priors but **do not repeat or near-duplicate** any of them.
 
-Status (2026-10-27): idea and spec only. No data, training or weights yet.
+Status (2026-10-27): spec and data plumbing. Dataset: [`danielrosehill/Bounded-Brainstorming`](https://huggingface.co/datasets/danielrosehill/Bounded-Brainstorming) (private until ready; holds one test row). No training or weights yet.
 
 ## Why
 
@@ -83,5 +83,8 @@ The tension to watch is novelty against fit. A model that rewards distance alone
 ## Layout
 
 - `docs/schema.md`: input/output contract
-- `data/` (planned): seed lists, synthetic tuples, splits
-- `eval/` (planned): scoring scripts
+- `data/seed/`: public example tuples (record = schema input + `output` + `source`)
+- `data/private/` (gitignored): working splits `train/validation/test.jsonl`, pushed to the private HF dataset
+- `scripts/validate.py`: `uv run scripts/validate.py <files.jsonl>` checks fields, item count, keys and exact repeats of priors
+- `scripts/push_dataset.py`: `with-secrets uv run scripts/push_dataset.py` pushes `data/private/*.jsonl` to HF (private)
+- `eval/` (planned): novelty, diversity and judge scoring
